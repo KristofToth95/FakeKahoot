@@ -1,0 +1,118 @@
+<body class="m-2">
+    <div class="row m-2 justify-content-center">
+        <div class="col bg-dark text-white">
+            <a class="navbar-brand">Kahoot admin</a>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col-4 p-2">
+            <table class="table table-sm table-bordered table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+                <tr *ngFor="let game of getGames()">
+                    <td style="vertical-align:middle">{{game.id}}</td>
+                    <td style="vertical-align:middle">{{game.description}}</td>
+                    <td class="text-center">
+                        <button class="btn btn-danger btn-sm" (click)="deleteGame(game.id)">
+                            Delete
+                        </button>
+                        <button class="btn btn-warning btn-sm" (click)="editGame(game.id)">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-primary m-1" (click)="createGame()">
+                Create New Game
+            </button>
+        </div>
+        <div class="col-8 p-2">
+            <div class="bg-primary text-white p-2" [class.bg-warning]="editing">
+                <h5>{{editing ? "Edit" : "Create"}} Game</h5>
+            </div>
+            <form novalidate #form="ngForm" (ngSubmit)="submitForm(form)">
+                <div class=col-12>
+                    <table>
+                        <tr>
+                            <td class="col-2"><label>ID</label></td>
+                            <td class="col-10"><label>Description</label></td>
+                        </tr>
+                        <tr>
+                            <td><input class="form-control" name="ID" [(ngModel)]="game.id" required readonly /></td>
+                            <td><input class="form-control" name="description" [(ngModel)]="game.description" required /></td>
+                        </tr>
+                    </table>
+                </div><br>
+                <div class="bg-primary text-white p-2" [class.bg-warning]="editing">
+                    <h5>Kérdések</h5>
+                </div>
+
+                <div class="form-group">
+                    <table class="table table-sm table-bordered table-striped">
+                        <tr>
+                            <th class="col-2">ID</th>
+                            <th class="col-8">Kérdés</th>
+                        </tr>
+                        <tr *ngFor="let quest of getQuestions()">
+                            <td class="col-1">
+                                <input class="form-control" name=`Id{{quest.id}}` [(ngModel)]="quest.id" required readonly>
+                            </td>
+                            <td class="col-8" style="vertical-align:middle">
+                                <input class="form-control" name=`des{{quest.id}}` [(ngModel)]="quest.question" required />
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-danger btn-sm" (click)="deleteQuestion(quest.id)">
+                                    Delete
+                                </button>
+                                <button class="btn btn-warning btn-sm" (click)="editQuestion(quest.id)">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-warning btn-sm mb-3" (click)="newQuestion()">
+                        New Question
+                    </button><br>
+                    <div class="bg-primary text-white p-2" [class.bg-warning]="editing">
+                        <h5>Válaszok</h5>
+                    </div>
+                    <table class="table table-sm table-bordered table-striped">
+                        <tr>
+                            <th class="col-2">ID</th>
+                            <th class="col-11">Válasz</th>
+                            <th class="col-1">Helyes</th>
+                        </tr>
+
+                        <tr *ngFor="let answ of getAnswers()">
+                            <td class="col-1">
+                                <input class="form-control" name=`Id{{answ.id}}` [(ngModel)]="answ.id" readonly>
+                            </td>
+                            <td class="col-7" style="vertical-align:middle">
+                                <input class="form-control" name=`opts{{answ.id}}` [(ngModel)]="answ.option" />
+                            </td>
+                            <td class="col-1">
+                                <input type="checkbox" name=`optct{{answ.id}}` [(ngModel)]="answ.correct">
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-danger btn-sm" (click)="deleteAnswer(answ.id)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div *ngIf="editQ==true">
+                        <button class="btn btn-warning btn-sm" (click)="newAnswer()">
+                            New answer
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary m-1" (click)="submitTFlag()">
+                    Save game
+                </button>
+            </form>
+        </div>
+    </div>
+</body>

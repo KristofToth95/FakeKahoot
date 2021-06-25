@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row m-2 justify-content-center">
+        <div class="col bg-dark text-white">
+            <a class="navbar-brand">Kahoot</a>
+        </div>
+    </div>
+    <div class="row m-2 justify-content-center ">
+        <label class="bg-primary text-white col-8 p-2">
+                {{getQuestions()}}
+        </label>
+    </div>
+    <div class="row m-2 justify-content-center">
+        <div class="col-3 m-2">
+            <button *ngFor="let options of getOptions()" class="btn btn-outline-primary btn-block" (click)="pickOption(options)">
+            {{options.option}}
+        </button>
+            <button class="btn-primary btn btn-block" (click)="submitAnswers()">
+            Next
+        </button>
+            <div *ngIf="getQuestionLength() == num">
+                <button class="btn-primary btn btn-block m-2" (click)="submitChanges">View Score</button>
+            </div>
+        </div>
+
+    </div>
+</div>
